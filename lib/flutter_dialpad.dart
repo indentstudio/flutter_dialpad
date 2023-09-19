@@ -44,7 +44,7 @@ class DialPad extends StatefulWidget {
 class _DialPadState extends State<DialPad> {
   MaskedTextController? textEditingController;
   var _value = "";
-  var mainTitle = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "＃"];
+  var mainTitle = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
   var subTitle = [
     "",
     "ABC",
@@ -55,9 +55,7 @@ class _DialPadState extends State<DialPad> {
     "PQRS",
     "TUV",
     "WXYZ",
-    null,
-    "+",
-    null
+    "+"
   ];
 
   @override
@@ -100,6 +98,7 @@ class _DialPadState extends State<DialPad> {
         color: widget.buttonColor,
         textColor: widget.buttonTextColor,
         onTap: _setText,
+        onLongPress: _setText,
       ));
     }
     //To Do: Fix this workaround for last row
@@ -201,6 +200,7 @@ class DialButton extends StatefulWidget {
   final IconData? icon;
   final Color? iconColor;
   final ValueSetter<String?>? onTap;
+  final ValueSetter<String?>? onLongPress;
   final bool? shouldAnimate;
   DialButton(
       {this.key,
@@ -212,7 +212,9 @@ class DialButton extends StatefulWidget {
       this.icon,
       this.iconColor,
       this.shouldAnimate,
-      this.onTap});
+      this.onTap,
+      this.onLongPress,
+      });
 
   @override
   _DialButtonState createState() => _DialButtonState();
@@ -252,6 +254,22 @@ class _DialButtonState extends State<DialButton>
     return GestureDetector(
       onTap: () {
         if (this.widget.onTap != null) this.widget.onTap!(widget.title);
+
+        if (widget.shouldAnimate == null || widget.shouldAnimate!) {
+          if (_animationController.status == AnimationStatus.completed) {
+            _animationController.reverse();
+          } else {
+            _animationController.forward();
+            _timer = Timer(const Duration(milliseconds: 200), () {
+              setState(() {
+                _animationController.reverse();
+              });
+            });
+          }
+        }
+      },
+      onLongPress: () {
+        if (this.widget.onLongPress != null && this.widget.title == '0') this.widget.onLongPress!(widget.subtitle);
 
         if (widget.shouldAnimate == null || widget.shouldAnimate!) {
           if (_animationController.status == AnimationStatus.completed) {
