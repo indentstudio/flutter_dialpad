@@ -73,7 +73,7 @@ class _DialPadState extends State<DialPad> {
 
   _setText(String? value) async {
     if ((widget.enableDtmf == null || widget.enableDtmf!) && value != null)
-      // Dtmf.playTone(digits: value.trim(), samplingRate: 8000, durationMs: 160);
+    // Dtmf.playTone(digits: value.trim(), samplingRate: 8000, durationMs: 160);
 
     if (widget.keyPressed != null) widget.keyPressed!(value!);
 
@@ -126,7 +126,7 @@ class _DialPadState extends State<DialPad> {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(10),
             child: TextFormField(
               readOnly: true,
               style: TextStyle(
@@ -152,8 +152,12 @@ class _DialPadState extends State<DialPad> {
                     ? Container()
                     : Center(
                         child: DialButton(
-                          icon: widget.dialButtonIcon != null ? widget.dialButtonIcon : Icons.phone,
-                          color: widget.dialButtonColor != null ? widget.dialButtonColor! : Colors.green,
+                          icon: widget.dialButtonIcon != null
+                              ? widget.dialButtonIcon
+                              : Icons.phone,
+                          color: widget.dialButtonColor != null
+                              ? widget.dialButtonColor!
+                              : Colors.green,
                           hideSubtitle: widget.hideSubtitle!,
                           onTap: (value) {
                             widget.makeCall!(_value);
@@ -189,7 +193,7 @@ class _DialPadState extends State<DialPad> {
                 ),
               )
             ],
-          )
+          ),
         ],
       ),
     );
@@ -208,19 +212,19 @@ class DialButton extends StatefulWidget {
   final ValueSetter<String?>? onTap;
   final ValueSetter<String?>? onLongPress;
   final bool? shouldAnimate;
-  DialButton(
-      {this.key,
-      this.title,
-      this.subtitle,
-      this.hideSubtitle = false,
-      this.color,
-      this.textColor,
-      this.icon,
-      this.iconColor,
-      this.shouldAnimate,
-      this.onTap,
-      this.onLongPress,
-      });
+  DialButton({
+    this.key,
+    this.title,
+    this.subtitle,
+    this.hideSubtitle = false,
+    this.color,
+    this.textColor,
+    this.icon,
+    this.iconColor,
+    this.shouldAnimate,
+    this.onTap,
+    this.onLongPress,
+  });
 
   @override
   _DialButtonState createState() => _DialButtonState();
@@ -275,7 +279,8 @@ class _DialButtonState extends State<DialButton>
         }
       },
       onLongPress: () {
-        if (this.widget.onLongPress != null && this.widget.title == '0') this.widget.onLongPress!(widget.subtitle);
+        if (this.widget.onLongPress != null && this.widget.title == '0')
+          this.widget.onLongPress!(widget.subtitle);
 
         if (widget.shouldAnimate == null || widget.shouldAnimate!) {
           if (_animationController.status == AnimationStatus.completed) {
@@ -304,7 +309,7 @@ class _DialButtonState extends State<DialButton>
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       SizedBox(
-                                        height: 8,
+                                        height: 2,
                                       ),
                                       Text(
                                         widget.title!,
@@ -315,11 +320,12 @@ class _DialButtonState extends State<DialButton>
                                                 : Colors.black),
                                       ),
                                       if (!widget.hideSubtitle)
-                                      Text(widget.subtitle!,
-                                          style: TextStyle(
-                                              color: widget.textColor != null
-                                                  ? widget.textColor
-                                                  : Colors.black))
+                                        Text(widget.subtitle!,
+                                            style: TextStyle(
+                                                color: widget.textColor != null
+                                                    ? widget.textColor
+                                                    : Colors.black,
+                                                fontSize: sizeFactor / 6))
                                     ],
                                   )
                                 : Padding(
