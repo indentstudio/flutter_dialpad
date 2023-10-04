@@ -65,6 +65,12 @@ class _DialPadState extends State<DialPad> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    textEditingController?.dispose();
+    super.dispose();
+  }
+
   _setText(String? value) async {
     if ((widget.enableDtmf == null || widget.enableDtmf!) && value != null)
       // Dtmf.playTone(digits: value.trim(), samplingRate: 8000, durationMs: 160);
